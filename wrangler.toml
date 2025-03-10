@@ -1,16 +1,16 @@
-name = "eyenepal-club"
+name = "datasnake-io"
 account_id = "47e13e9e668bc72035b71e7fbf068b39"
 workers_dev = false
 compatibility_date = "2024-02-19"
 
 # Explicitly set the entry-point file
-main = "./.output_eyenepal/server/index.mjs"
+main = "./.output_datasnake/server/index.mjs"
 
 compatibility_flags = ["nodejs_compat"]
 
 routes = [
-  { pattern = "https://eyenepal.club/*", zone_id = "4e75123b9d40582cb8a8c161249eb917" }
+  { pattern = "https://datasnake.io/*", zone_id = "cb4db41dda1c0d71ff09cb9638c4c376" }
 ]
 
 [site]
-bucket = ".output_eyenepal/public"
+bucket = ".output_datasnake/public"
