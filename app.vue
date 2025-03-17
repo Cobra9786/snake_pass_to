@@ -29,7 +29,7 @@ import "/public/styles/base.css"; // Adjust the path based on your project struc
 
 <script setup lang="ts">
 useSeoMeta({
-  ogImage: '/trekking.png'
+  ogImage: '/datasnake.png'
 })
 </script>
 

@@ -16,10 +16,10 @@ import { useRouter } from 'vue-router';
 
 export default defineComponent({
   metaInfo: {
-    title: 'Eye Nepal Home Page',
+    title: 'DataSnake Home Page',
     meta: [
-      { name: 'description', content: 'Eye Nepal Landing Page with links to Booking, Gallery, Contact, Donate' },
-      { name: 'keywords', content: 'Nepal, Travel Nepal, Trekking, Trekking Nepal, Anapurna, Everest' },
+      { name: 'description', content: 'DataSnake Landing Page' },
+      { name: 'keywords', content: 'Data, Weather Data' },
     ],
   },
   setup() {
@@ -58,7 +58,7 @@ export default defineComponent({
   left: 0;
   width: 100vw;
   height: 80vh;
-  /* background-image: url('/eyenepal.png'); */
+  background-image: url('/datasnake.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

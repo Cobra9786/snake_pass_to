@@ -141,7 +141,7 @@ import starisDownSmall from 'public/images/gallery/image-small/staris-down-small
 
 export default {
   metaInfo: {
-    title: 'Eye Nepal Gallery',
+    title: 'DataSnake Gallery',
     meta: [
       { name: 'description', content: 'A Gallery Page showing some epic first hand pics of Nepal Mountains.' },
       { name: 'keywords', content: 'Nepal, Travel Nepal, Trekking, Trekking Nepal, Anapurna, Everest' },
