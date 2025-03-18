@@ -1,23 +1,3 @@
-<!-- <script setup>
-import "/public/styles/base.css"; // Adjust the path based on your project structure
-</script>
-
-<template>
-  <div>
-    <NuxtPage />
-  </div>
-</template>
-
-<style>
-  .body {
-    display: flex;
-    flex-direction: column;
-    color: whitesmoke;
-    background-color: rgb(23, 21, 21);
-    margin: 0;
-  }
-</style> -->
-
 <template>
   <div>
     <NuxtRouteAnnouncer />

@@ -123,5 +123,8 @@ bucket = ".output/public"
 
 npx nuxi build
 
-# RENAME .output to output_eyenepal
-mv .output .output_eyenepal eyenepal_output
+# RENAME .output to output_datasnake
+mv .output .output_datasnake
+
+# FINAL STEP : DEPLOY TO CLOUDFLARE
+ wrangler publish --config wrangler.toml

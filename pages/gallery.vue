@@ -141,10 +141,10 @@ import starisDownSmall from 'public/images/gallery/image-small/staris-down-small
 
 export default {
   metaInfo: {
-    title: 'DataSnake Gallery',
+    title: 'DataSnake Weather DataGallery',
     meta: [
-      { name: 'description', content: 'A Gallery Page showing some epic first hand pics of Nepal Mountains.' },
-      { name: 'keywords', content: 'Nepal, Travel Nepal, Trekking, Trekking Nepal, Anapurna, Everest' },
+      { name: 'description', content: 'AI Weahter Data Dashboard.' },
+      { name: 'keywords', content: 'AI Global Warming, Deadly Weather, Deadly Storm' },
     ],
   },
   data() {

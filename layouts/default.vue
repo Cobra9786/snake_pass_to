@@ -3,7 +3,7 @@
     <header>
       <nuxt-link to="/">Home</nuxt-link>
       <div>
-        <div class="eye_title">DATA SNAKE</div>
+        <div class="eye_title">DATA SNAKE BYTEs</div>
         <div class="adventure">WEATHER DATA</div>
       </div>
       <div>Login</div>
