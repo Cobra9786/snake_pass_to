@@ -6,7 +6,9 @@
         <div class="eye_title">DATA SNAKE BYTEs</div>
         <div class="adventure">WEATHER DATA</div>
       </div>
-      <div>Login</div>
+      <div>
+        <nuxt-link to="/login">Login</nuxt-link>
+      </div>
     </header>
 
     <main>
@@ -68,6 +70,8 @@
   .layout-container {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     height: 100dvh; /* Make it 100dvh to account for header and footer */
     margin: 0;
     overflow: hidden; /* Ensure no overflow */

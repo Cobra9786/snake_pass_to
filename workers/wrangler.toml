@@ -3,7 +3,7 @@ main = "./d1-worker.js"
 compatibility_date = "2024-12-08"
 
 [[d1_databases]]
-binding = "auth-deb"
+binding = "DB"
 database_name = "auth-db"
 database_id = "58440f24-cf60-4eda-84c8-a72ec6384fad"
 preview_database_id = "bc15f714-a894-4df9-bce3-871b60251a5d" 

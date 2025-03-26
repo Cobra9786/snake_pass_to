@@ -19,6 +19,11 @@ export default defineNuxtConfig({
       "window.document": "undefined",
     },
   },
+  runtimeConfig: {
+    public: {
+      d1WorkerBaseUrl: 'https://d1-worker-production.rustchain64.workers.dev', // adjust if needed
+    }
+  },
 
   compatibilityDate: '2025-02-19'
 })
