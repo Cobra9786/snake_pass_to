@@ -3,16 +3,23 @@ main = "./d1-worker.js"
 compatibility_date = "2024-12-08"
 
 [[d1_databases]]
-binding = "DB"
+binding = "auth_db"
 database_name = "auth-db"
-database_id = "58440f24-cf60-4eda-84c8-a72ec6384fad"
-preview_database_id = "bc15f714-a894-4df9-bce3-871b60251a5d" 
+database_id = "1b6533fe-ca99-4509-9890-b7cb594f3d6a"
+preview_database_id = "bc15f714-a894-4df9-bce3-871b60251a5d"
 
 [env.preview]
 name = "d1-worker-preview"
-main = "./d1-worker.js"
 
 [[env.preview.d1_databases]]
-binding = "auth-deb"
+binding = "auth_db"
 database_name = "auth-db-preview"
 database_id = "bc15f714-a894-4df9-bce3-871b60251a5d"
+
+[env.production]
+name = "d1-worker-production"
+
+[[env.production.d1_databases]]
+binding = "auth_db"
+database_name = "auth-db"
+database_id = "1b6533fe-ca99-4509-9890-b7cb594f3d6a"

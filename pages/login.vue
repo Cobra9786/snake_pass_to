@@ -4,7 +4,7 @@
     <form @submit.prevent="handleLogin">
       <input v-model="username" placeholder="Username" required />
       <input v-model="password" type="password" placeholder="Password" required />
-      <button type="submit">Login</button>
+      <button type="submit" :disabled="loading">Login</button>
     </form>
     <p v-if="error">{{ error }}</p>
   </div>
@@ -18,21 +18,17 @@ const username = ref('');
 const password = ref('');
 const error = ref('');
 const router = useRouter();
+const loading = ref(false);
 
 const handleLogin = async () => {
+  console.log("SELECT TO LOGIN")
+  
   error.value = '';
-
-  await $fetch('/api/login', {
-    method: 'POST',
-    body: { username: 'produser1', password: 'prodpass1' }
-  });
 
   try {
     //Nuxt’s $fetch utility to make requests via login.post.ts
     const response = await $fetch('/api/login', {
       method: 'POST',
-      //headers: { 'Content-Type': 'application/json' },
-      //body: JSON.stringify({ username: username.value, password: password.value }),
       body: { username: username.value, password: password.value },
     });
 
@@ -50,6 +46,8 @@ const handleLogin = async () => {
   } catch (err) {
     console.error('Login error:', err);
     error.value = err?.data?.message || 'An error occurred. Please try again.';
+  } finally {
+    loading.value = false;
   }
 };
 </script>

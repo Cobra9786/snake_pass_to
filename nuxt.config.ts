@@ -15,13 +15,13 @@ export default defineNuxtConfig({
   },
   vite: {
     define: {
-      "global.document": "undefined", // ✅ Prevents `document` from causing issues in server-side code
-      "window.document": "undefined",
+      "global.document": undefined, // ✅ Prevents `document` from causing issues in server-side code
+      "window.document": undefined,
     },
   },
   runtimeConfig: {
     public: {
-      d1WorkerBaseUrl: 'https://d1-worker-production.rustchain64.workers.dev', // adjust if needed
+      d1WorkerBaseUrl: process.env.D1_WORKER_BASE_URL
     }
   },
 

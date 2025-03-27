@@ -1,0 +1,3 @@
+# PREVIEW WORKFLOW TO DEVELOP
+
+npx nuxi preview

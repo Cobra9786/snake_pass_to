@@ -1,5 +1,17 @@
+# FOUND ISSUE
+.wrangler/tmp was holding a stale version of the worker cuaseing total mahem.
+rm -rf .wrangler/tmp
+
+
+## FORCE WRANGER TO REVEAL
+wrangler build --env production --outdir dist
+
+
+
 Use the Workers Logs in Cloudflare Dashboard
 Log in to your Cloudflare account.
+
+
 
 Navigate to the Workers tab in your Cloudflare dashboard.
 
