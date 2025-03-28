@@ -21,7 +21,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      d1WorkerBaseUrl: process.env.D1_WORKER_BASE_URL
+      d1WorkerBaseUrl: process.env.NUXT_PUBLIC_D1_WORKER_BASE_URL
     }
   },
 

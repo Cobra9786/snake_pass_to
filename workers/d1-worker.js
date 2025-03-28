@@ -59,9 +59,51 @@ export default {
         });
       }
     }
-    
-    
 
+    // --- NEW: Handle API requests for registration ---
+    if (url.pathname === '/api/register' && request.method === 'POST') {
+      try {
+        const { username, password } = await request.json();
+    
+        if (!username || !password) {
+          return new Response(JSON.stringify({ error: 'Missing username or password' }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
+    
+        // Check if user exists
+        const existing = await env.auth_db.prepare(
+          'SELECT id FROM users WHERE username = ?'
+        ).bind(username).first();
+    
+        if (existing) {
+          return new Response(JSON.stringify({ error: 'User already exists' }), {
+            status: 409,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
+    
+        // Register new user
+        await env.auth_db.prepare(
+          'INSERT INTO users (username, password) VALUES (?, ?)'
+        ).bind(username, password).run();
+    
+        return new Response(JSON.stringify({ message: 'User registered successfully' }), {
+          status: 201,
+          headers: { 'Content-Type': 'application/json' },
+        });
+    
+      } catch (err) {
+        console.error('Error in worker /api/register:', err);
+        return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+    }   
+
+    // future admin use only: get users to display to admin dashboard
     if (url.pathname === '/api/users') {
       const { results } = await env.auth_db.prepare('SELECT * FROM users').all();
       return new Response(JSON.stringify(results), {
@@ -69,8 +111,6 @@ export default {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    
-  
 
     // Default response
     return new Response('Not Found', {

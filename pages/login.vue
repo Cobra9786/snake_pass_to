@@ -1,16 +1,18 @@
 <template>
-  <div>
+  <div class="card-body">
     <h1>Login</h1>
     <form @submit.prevent="handleLogin">
       <input v-model="username" placeholder="Username" required />
       <input v-model="password" type="password" placeholder="Password" required />
-      <button type="submit" :disabled="loading">Login</button>
+      <button type="submit" :disabled="loading" class="login-button">Login</button>
+      <button @click="handleRegister"  class="register-button">Register</button>
     </form>
     <p v-if="error">{{ error }}</p>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -21,35 +23,35 @@ const router = useRouter();
 const loading = ref(false);
 
 const handleLogin = async () => {
-  console.log("SELECT TO LOGIN")
-  
   error.value = '';
 
   try {
-    //Nuxt’s $fetch utility to make requests via login.post.ts
     const response = await $fetch('/api/login', {
       method: 'POST',
       body: { username: username.value, password: password.value },
     });
 
-    console.log("LOGGED IN?:: ", response)
-    
+    // Check for unsuccessful login
+    if (response.status !== 200) {
+      error.value = response.message || 'Login failed';
+      return;
+    }
 
-    // if (!response.ok) {
-    //   const result = await response.json();
-    //   error.value = result.message || 'Login failed';
-    //   return;
-    // }
-
-    // Redirect to a protected route after successful login
+    console.log("✅ LOGGED IN:", response);
     router.push('/');
-  } catch (err) {
-    console.error('Login error:', err);
+  } catch (err: any) {
+    console.error('❌ Login error:', err);
     error.value = err?.data?.message || 'An error occurred. Please try again.';
-  } finally {
-    loading.value = false;
   }
 };
+
+
+const handleRegister = async () => {
+  console.log("SELECT TO REGISTER")
+    
+  router.push('/register');
+};
+
 </script>
 
 <style scoped>
@@ -58,6 +60,8 @@ const handleLogin = async () => {
 
 .card-body {
 padding: 20px;
+width: 60 vw;
+height: 60 vh;
 background: #282c34;
 border-radius: 8px;
 color: #fff;
