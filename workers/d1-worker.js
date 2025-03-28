@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs';
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -17,50 +19,52 @@ export default {
     // Handle API requests (e.g., /api/login)
     if (url.pathname === '/api/login' && request.method === 'POST') {
       try {
-        const body = await request.json();
-        const { username, password } = body;
+        const { username, password } = await request.json();
+        console.log('🟡 Received login request for:', username);
     
-        if (!username || !password) {
-          console.warn('Missing username or password in request body:', body);
-      
-          return new Response(JSON.stringify({ error: 'Missing credentials' }), { status: 400 });
-        }
+        const user = await env.auth_db
+          .prepare('SELECT * FROM users WHERE username = ?')
+          .bind(username)
+          .first();
     
-        const query = 'SELECT username FROM users WHERE username = ? AND password = ?';
-        const user = await env.auth_db.prepare(query).bind(username, password).first();
-    
-        if (user) {
-          console.log('Login success for user:', username);
-          return new Response(JSON.stringify({ message: 'Login successful', user }), {
-            status: 200,
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-            },
-          });
-        } else {
-          console.warn('Invalid credentials for user:', username);
+        if (!user) {
+          console.warn('❌ User not found:', username);
           return new Response(JSON.stringify({ error: 'Invalid username or password' }), {
             status: 401,
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-            },
+            headers: { 'Content-Type': 'application/json' },
           });
         }
-      } catch (error) {
-        console.error('Login error:', error);
+    
+        console.log('🔐 User found. Stored hash:', user.password);
+        console.log('🔑 Attempted password:', password);
+    
+        const match = await bcrypt.compare(password, user.password);
+        console.log('🧪 bcrypt.compare result:', match);
+    
+        if (!match) {
+          console.warn('❌ Invalid password for:', username);
+          return new Response(JSON.stringify({ error: 'Invalid username or password' }), {
+            status: 401,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
+    
+        console.log('✅ Login successful for:', username);
+        return new Response(JSON.stringify({ message: 'Login successful', user: { username: user.username } }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+    
+      } catch (err) {
+        console.error('💥 Login error:', err);
         return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
           status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
+          headers: { 'Content-Type': 'application/json' },
         });
       }
-    }
+    }    
 
-    // --- NEW: Handle API requests for registration ---
+    // Handle API requests for registration ---
     if (url.pathname === '/api/register' && request.method === 'POST') {
       try {
         const { username, password } = await request.json();
@@ -72,10 +76,11 @@ export default {
           });
         }
     
-        // Check if user exists
-        const existing = await env.auth_db.prepare(
-          'SELECT id FROM users WHERE username = ?'
-        ).bind(username).first();
+        // Check if user already exists
+        const existing = await env.auth_db
+          .prepare('SELECT id FROM users WHERE username = ?')
+          .bind(username)
+          .first();
     
         if (existing) {
           return new Response(JSON.stringify({ error: 'User already exists' }), {
@@ -84,10 +89,14 @@ export default {
           });
         }
     
-        // Register new user
-        await env.auth_db.prepare(
-          'INSERT INTO users (username, password) VALUES (?, ?)'
-        ).bind(username, password).run();
+        // Hash the password before storing
+        const hashedPassword = await bcrypt.hash(password, 10);
+    
+        // Insert new user
+        await env.auth_db
+          .prepare('INSERT INTO users (username, password) VALUES (?, ?)')
+          .bind(username, hashedPassword)
+          .run();
     
         return new Response(JSON.stringify({ message: 'User registered successfully' }), {
           status: 201,
@@ -101,7 +110,8 @@ export default {
           headers: { 'Content-Type': 'application/json' },
         });
       }
-    }   
+    }
+     
 
     // future admin use only: get users to display to admin dashboard
     if (url.pathname === '/api/users') {
